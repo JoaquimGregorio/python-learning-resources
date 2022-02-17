@@ -14,10 +14,11 @@ def clients_list(clients_iterable: Iterable[str], listx: list = None):
     return listx
 
 
-# Or we can just create pass the second argument as an empty list
+# Or we can just pass the second argument as an empty list
 clients1 = clients_list(["John", "Mary", "Stewart"], [])
 clients2 = clients_list(["Marcos", "Steve", "Bob"])
 clients3 = clients_list(["Joseph"])
 
 print(clients1)
 print(clients2)
+print(clients3)

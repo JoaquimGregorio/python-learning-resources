@@ -1,5 +1,5 @@
 """
-Context managers - better that use try...except...finally to handle files
+Context managers - better than use try...except...finally to handle files
 """
 # It closes the file automatically
 with open("demofile1.txt", "w+") as file:
