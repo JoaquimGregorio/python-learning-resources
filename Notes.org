@@ -1,0 +1,1866 @@
+#+TITLE: Python Notes
+#+AUTHOR: Joaquim Gregório
+#+STARTUP: overview
+* Programming Logic
+** Print Function
+#+begin_src python
+print("073", "928", "375", sep=".", end="-")
+print(18)
+
+print('This is a \'string\' (str)')  # We can use double quotes
+print("This is a 'string' (str)")
+
+# Ignoring escape characters with 'r' in front of the string
+print(r"This is also \n a string")
+
+name = "Joaquim"
+age = 18
+
+print(f'This is my name: {name}' f', and this is my age: {age}')
+#+end_src
+
+** Data Types
+- str - string -> texts
+- int - integer -> integer numbers
+- float - floating point -> real numbers
+- bool - boolean - logic values
+#+begin_src python
+# We can see the type of some value using the 'type' function
+
+print('Joaquim', type('Joaquim'))
+print(13, type(13))
+print(13.0, type(13.0))
+print(13 == 13, type(13 == 13))
+
+print("\n")
+
+# Type casting
+# There's truthy and falsy values
+print('joaquim', type('joaquim'), bool('joaquim'))
+print(type(int('10')))
+#+end_src
+
+** Arithmetic Operators
+- + -> Plus
+- - -> Minus
+- * -> Times
+- / -> Quotient
+- // -> Integer quotient
+- ** -> Power
+- % -> Modulus
+- ()
+#+begin_src python
+print('Times (*), 10 * 10 =', 10 * 10)
+print('Plus (+), 10 + 10 =', 10 + 10)
+print('Minus (-), 10 - 5 =', 10 - 5)
+print('Division (/), 10 / 2 =', 10 / 2)
+
+# * can be used as a repeat operator to repeat strings
+print('Joaquim' * 3)
+
+# We can use type casting to concatenate different data types
+print('Joaquim is ' + str(18) + ' years old.')
+
+# Division without rest
+print(10.7 // 5)
+
+print(2 ** 10)
+
+print(10 % 3)
+#+end_src
+
+** Variables:
+Start with letter, can contain numbers, separate with _, lowercase letters
+#+begin_src python
+name = 'Joaquim'
+age = 18
+height = 1.76
+is_of_age = age >= 18  # bool
+weight = 100
+
+imc = weight / (height ** 2)
+
+print(name, 'is', age, 'years old and his imc is', imc)
+#+end_src
+** Print Variables
+#+begin_src python
+name = 'Joaquim'
+age = 18
+height = 1.76
+is_of_age = age >= 18
+weight = 100
+imc = weight / (height ** 2)
+
+## 'format' function
+print(name, 'is', age, 'years old and his imc is', imc)
+print(f'{name} is {age} years old and his imc is {imc:.2f}')
+# We can use variables anywhere using its index
+print('IMC = {2:.0f}. {0} is {1} years old and his imc is {2:.2f}'.format(
+    name, age, imc))
+# We can give aliases to the variables
+print('IMC = {im:.0f}. {n} is {a} years old and his imc is {im:.2f}'.format(
+    n=name, a=age, im=imc))
+#+end_src
+
+** Data Input
+- input function
+#+begin_src python
+name = input("What is your name? ")
+age = input("What is your age? (years) ")
+year_of_birth = 2021 - int(age)
+
+# Notice that we can ommit the comma in the print function
+print(f"{name} is {age} years old. " f"{name} was born in {year_of_birth}")
+#+end_src
+
+** Conditions
+- if, elif e else
+- You can use relational operators:
+  - '==', '>', '>=', '<', '<=', '!='
+- You can use relational keywords:
+  - 'and', 'or', 'not', 'in', 'not in'
+- You can use the 'pass' keyword as a placeholder
+#+begin_src python
+if 2 >= 3 and 1 == 1:
+    print("True.")
+elif not False:
+    print("Now it's true.")
+elif 1 > 2 or 3 < 4:
+    pass
+else:
+    print("It's not true.")
+
+# Short hand if .. else
+a = 2
+b = 330
+print("A") if a > b else print("=") if a == b else print("B")
+
+name = "Joaquim Gregório"
+if "uim" in name:
+    print("There's 'uim' in your name.")
+if "w" not in name:
+    print("There's no 'w' character in your name.")
+#+end_src
+
+** Length Function
+- len() -> int
+#+begin_src python
+name = "Joaquim"
+print(len(name))
+print(name.__len__())
+#+end_src
+** Is it a number?
+- isnumeric, isdigit, isdecimal -> bool
+- Don't work with float numbers.
+#+begin_src python
+num1 = input("Type a number: ")
+num2 = input("Type another number: ")
+
+if isnumeric(num1):
+    print('num1 is numeric.')
+
+if isdigit(num2):
+    print('num2 is digit.')
+
+if num1.isdecimal() and num2.isdecimal():
+    num1 = int(num1)
+    num2 = int(num2)
+
+    print(num1 + num2)
+else:
+    print("Cannot convert input into numbers.")
+#+end_src
+** Is it a number? (2)
+#+begin_src python
+import re
+
+
+def is_float(val):
+    if isinstance(val, float):
+        return True
+    if re.search(r"^\-{,1}[0-9]+\.{1}[0-9]+$", val):
+        return True
+
+    return False
+
+
+def is_int(val):
+    if isinstance(val, int):
+        return True
+    if re.search(r"^\-{,1}[0-9]+$", val):
+        return True
+
+    return False
+
+
+def is_number(val):
+    return is_int(val) or is_float(val)
+
+
+num1 = input("Type a number: ")
+num2 = input("Type another number: ")
+
+if is_number(num1) and is_number(num2):
+    num1 = float(num1)
+    num2 = float(num2)
+
+    print(num1 + num2)
+else:
+    print("Cannot convert input into number.")
+#+end_src
+
+** Pass and Ellipsis
+Placeholders (when we want to leave empty code blocks)
+#+begin_src python
+value = True
+
+if value:
+    pass  # Pass
+elif not value:
+    ...  # Ellipsis
+else:
+    print("Bye")
+#+end_src
+
+** Formating Strings With Modifiers
+- :s -> Text (string)
+- :d -> Integers (int)
+- :f -> Floating point numbers (float)
+- :.(number)f -> Number of deciamal places (float)
+- :(character)(> or < or ^)(quantity)(type - s, d or f)
+
+- > -> Left
+- < -> Right
+- ^ ->  Center
+#+begin_src python
+num_1 = 10
+num_2 = 3
+quotient = num_1 / num_2
+print('{:.2f}'.format(quotient))  # 2 decimal places
+print(f'{quotient:.2f}')  # 2 decimal places
+
+num_1 = 1
+print(f'{num_1:0>10}')  # on the left
+
+num_2 = 1150
+print(f'{num_2:0<10}')  # on the right
+
+num_3 = 1233
+print(f'{num_3:0^10}')  # on the center
+
+num_4 = 3455
+print(f'{num_4:0>10.2f}')
+
+name = 'Joaquim Gregório'
+print(len(name))
+print(f'{name:#^50}')
+
+formated_name = '{:@>50}'.format(name)
+print(formated_name)
+
+name = 'Joaquim Gregório'
+# name = name.ljust(30, '#')
+print(name.lower())
+print(name.upper())
+print(name.title())
+#+end_src
+** String Manipulation
+- String indexes (supports either positive and negative indexes)
+- String slicing [beginning:end:pass]
+- Built-in functions len, abs, type, print, etc...
+These functions can be used directly in each type
+#+begin_src python
+text = "Python_s2"  # [012345678] and -[987654321] as indexes
+# print(text[-2])
+
+url = "www.gentoo.org/"
+
+print(url[4:-1])  # slicing
+
+new_text = text[:6]
+new_text_2 = text[7:]
+print(new_text, new_text_2)
+print(text[:-2])
+
+# [beginning:end:pass]
+
+print(text[::2])  # jumping 2 characters in all the string
+print(text[0:6:2])  # from 0 till 6 jumping 2 characters (ignoring one character)
+
+for char in text:
+    print(char)
+#+end_src
+
+** While
+| Keywords | Functionality        |
+|----------+----------------------|
+| continue | jumps one loop cycle |
+| break    | ends the loop        |
+*** Syntax
+#+begin_src python
+x = 0
+while x < 5:
+    if x % 2 == 0:
+        x += 1
+        continue
+
+    print(x)
+    x += 1
+#+end_src
+*** While Else
+Else code block is executed if when condition is false
+#+begin_src python
+x = 1
+y = 1
+
+while x <= 100:
+    if x == 7:
+        break  # since here the while condition is already true
+    print(x, y)
+    x += y
+    y += 1
+else:  # is execute if the while condition is false
+    print("Else after while")
+#+end_src
+** Iterating Over Strings
+#+begin_src python
+sentence = "o rato roeu a roupa do rei de roma"
+sentence_size = len(sentence)
+counting = 0
+new_sentence = ""
+
+while counting < sentence_size:
+    # print(sentence[counting], counting)
+    character = sentence[counting]
+    if character == "r":
+        new_sentence += "R"
+    else:
+        new_sentence += character
+    counting += 1
+
+print("new sentence:", new_sentence)
+#+end_src
+** For
+- Range function: range(start?=0, stop, step?=1)
+*** Syntax
+#+begin_src python
+text = "Python"
+for c in text:
+    print(c)
+
+for num in range(10, 20, 2):
+    print(num)
+
+text = "Python"
+new_text = ""
+for c in text:
+    if c == "t":
+        new_text += c.upper()
+    elif c == "h":
+        new_text += c.upper()
+    else:
+        new_text += c
+print(new_text)
+#+end_src
+*** For Else
+- Else is called when the loop ends without breaking (break)
+#+begin_src python
+list1 = ["sJoaquim", "André", "Carlos"]
+
+for el in list1:
+    print(el)
+    if el.lower().startswith("j"):
+        break
+else:
+    print("There's no word which starts with J.")
+#+end_src
+** Lists
+- Some functions:
+  | Syntax        | Functionality                                                   |
+  |---------------+-----------------------------------------------------------------|
+  | append(el)    | Adds an element at the end of the list                          |
+  | clear()       | Removes all the elements from the list                          |
+  | copy()        | Returns a copy of the list                                      |
+  | count()       | Returns the number of elements with the specified value         |
+  | extend()      | Add any iterable to the end of the current list                 |
+  | index()       | Returns the index of the first element with the specified value |
+  | insert(i, el) | Adds an element at the specified position                       |
+  | pop(i?)       | Removes the element at the specified position                   |
+  | remove()      | Removes the item with the specified value                       |
+  | reverse()     | Reverses the order of the list                                  |
+  | sort()        | Sorts the list                                                  |
+  | min()         | Returns the smallest element in the list                        |
+  | max()         | Returns the biggest element                                     |
+  | del           | Keyword. Used to delete an element, range or the entire list    |
+  | list          | Class that converts any iterable to a list                      |
+*** List Slicing
+#+begin_src python
+list1 = list(("a", "b", "c", "d", "e", "f", 1, 2, False))
+for el in list1:
+    print(el)
+
+l1 = list(range(1, 7))
+
+l1.append(7)
+l1.insert(0, 8)
+del l1[1]
+del l1[3:5]
+
+print(l1)
+print(max(l1))
+print(min(l1))
+
+l2 = ["a", "ab", "abc", "abcd", "abcde"]
+print(max(l2))
+print(min(l2))
+
+l3 = ["String", True, 10, -20.5]
+for elem in l3:
+    print(f"The type of elem is {type(elem)} and its value is {elem}")
+#+end_src
+
+*** List Comprehension
+#+begin_src python
+[print(el) for el in l3]
+
+fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+newlist = [x for x in fruits if "a" in x]
+
+# General syntax: newlist = [expression for item in iterable if condition == True]
+# expression can be whatever you want
+#+end_src
+
+*** Hangman Game
+#+begin_src python
+secret = "hello"
+typed = []
+chances = 3
+
+while True:
+    if chances == 0:
+        print("You lose!")
+        break
+
+    letter = input("Type a letter: ")
+
+    if len(letter) > 1:
+        print("Type only one letter!")
+        chances -= 1
+        continue
+
+    typed.append(letter)
+
+    if letter in secret:
+        print(f'Nice, the letter "{letter}" is in the secret word.')
+    else:
+        print(f'Hurr, the letter "{letter}" isn\'t in the secret word.')
+        typed.pop()
+        chances -= 1
+
+    secret_buffer = ""
+    for secret_letter in secret:
+        if secret_letter in typed:
+            secret_buffer += secret_letter
+        else:
+            secret_buffer += "*"
+
+    if secret_buffer == secret:
+        print(f'\nNice, you won!!!\nThe secret word is "{secret_buffer}"')
+        break
+    else:
+        print(secret_buffer)
+
+    print(f"You still have {chances} chances.")
+#+end_src
+
+** Split, Join and Enumerate
+| Function    | Functionality                            |
+|-------------+------------------------------------------|
+| split()     | split a string                           |
+| join()      | join a list                              |
+| enumerate() | enumerate elements of a list (iterables) |
+*** Split
+#+begin_src python
+string = "O Brasil é o país do futebol, o Brasil é penta."
+list1 = string.split(" ")
+list2 = string.split(",")
+
+word = ""
+counter = 0
+for value in list1:
+    occurrences = list1.count(value)
+
+    if occurrences > counter:
+        counter = occurrences
+        word = value
+
+print(f"The word that appeared most times is {word} ({counter}x)")
+
+for value in list2:
+    print(value.strip().capitalize())
+#+end_src
+*** Join
+#+begin_src python
+string2 = "O Brasil é penta."
+list3 = string2.split(" ")
+string3 = ",".join(list3)
+print(string3)
+#+end_src
+*** Enumerate
+#+begin_src python
+string2 = "O Brasil é penta."
+list3 = string2.split(" ")
+
+for i, value in enumerate(list3, 10):
+    print(i, value)
+
+# This is exactly what enumerate() does, but it does it in a tuple
+list4 = [[0, "Joaquim"], [1, "Marcos"], [2, "Carlos"]]
+
+for i, value in list4:
+    print(i, value)
+#+end_src
+*** Unpacking
+#+begin_src python
+list1 = [[0, "Joaquim"], [1, "Marcos"], [2, "Carlos"]]
+l1, l2, l3 = list1
+print(l1)
+#+end_src
+
+** Unpacking Lists
+#+begin_src python
+list1 = ["João", "Luis", "Maria", 1, 2, 3, 4, 5]
+
+n1, n2, *other_list, last_value = list1
+# you can use *_ to ignore the rest
+
+print(n1, n2)
+print(other_list)
+print(last_value)
+
+## Inverting variable values
+x = 1
+y = "a"
+print(f"x: {x}, y: {y}")
+
+[x, y] = [y, x]
+print(f"x: {x}, y: {y}")
+
+x, y = y, x
+print(f"x: {x}, y: {y}")
+#+end_src
+
+** Ternary Operator
+*** Syntax
+#+begin_src python
+logged_user = False
+
+msg = "User is logged in." if logged_user else "User needs to login."
+
+print(msg)
+
+age = input("Type your age: ")
+
+if not age.isnumeric():
+    print("Type only numbers.")
+else:
+    age = int(age)
+    is_of_legal_age = age >= 18
+
+    msg2 = "Can access." if is_of_legal_age else "Cannot access."
+
+    print(msg2)
+#+end_src
+*** Expressions with OR operator
+#+begin_src python
+name = input("Type your name: ")
+
+# "Old" way:
+# if name:
+#     print(name)
+# else:
+#     print("You didn't type anything.")
+
+# Ternary operator way:
+# msg = name or "You didn't type anything."
+# print(msg)
+
+# Short and "unreadable" way
+print(name or "You didn't type anything.")
+#+end_src
+
+** Reverse Counter
+- Result
+| Before | After |
+|--------+-------|
+|      0 |    10 |
+|      1 |     9 |
+|      2 |     8 |
+|      3 |     7 |
+|      4 |     6 |
+|      5 |     5 |
+|      6 |     4 |
+|      7 |     3 |
+|      8 |     2 |
+|      9 |     1 |
+|     10 |     0 |
+#+begin_src python
+for p, r in enumerate(range(10, -1, -1)):
+    print(p, r)
+#+end_src
+
+* Procedural Programming
+** Functions
+*** Syntax
+#+begin_src python
+# 'msg' and 'name' have default values
+def greeting(msg: str = "Hello", name: str = "user") -> str:
+    """Prints and returns some greeting."""
+    print(msg, name)
+
+    return f"{msg} {name}"
+
+
+greeting()
+greeting("Hi", "Joaquim")
+greeting(name="Marcos", msg="Nice to meet you")
+#+end_src
+
+*** Syntax 2
+#+begin_src python
+def quotient(n1: int, n2: int):
+    if n2 == 0:
+        return
+
+    return n1 / n2
+
+
+result = quotient(2, 0)
+if result:
+    print("{:.2f}".format(result))
+else:
+    print("Invalid.")
+
+
+def f(msg):
+    print(msg)
+
+
+def dumb():
+    return f
+
+
+var = dumb()
+
+print(id(f), id(var))
+
+if var == f:
+    print("var is equals to f")
+else:
+    print("pass")
+#+end_src
+*** More About Functions
+- Since we set a default value for an parameter, after that, the following parameters must have a default value too. The same pattern is valid for the arguments when calling a function.
+#+begin_src python
+def func(a, b, c="c", d=None):
+    # d must have a default value
+    print(f"{a}, {b}, {c}, {d}")
+
+
+# here we get an error:
+func(1, b=2, c="c", 3)
+
+# the right way:
+func(1, b=2, d=3, c="c")  # any order (b, d and c)
+#+end_src
+
+*** Args and Kwargs
+#+begin_src python
+def func(a, b, *args, **kwargs):
+    # arguments (args) and keyword arguments (kwargs)
+    print(a, b)
+    print(args)
+    print(kwargs)
+    print(kwargs.get("age"))
+    # different from kwargs['age'], kwargs.get('age')
+    # returns a value or None if key does not exist.
+
+
+func(1, 2, 3, 4, 5, name="Joaquim", lastname="Gregório")
+
+# Unpacking when passing the arguments (valid for any iterable):
+list1 = [1, 2, 3, 4, 5]
+print(*list1, sep="-")  # the same as: print(1, 2, 3, 4, 5)
+#+end_src
+*** Global Variables
+- Variables has a scope.
+- We can use a global variable, but to change its value we must call that global variable, otherwise, we will create another variable in the current scope with the same name of the global variable we refer to.
+#+begin_src python
+some_var = "value"
+print(some_var)
+
+
+def func():
+    global some_var
+    some_var = "other value"  # modifying global variable
+    # now we have access to some_var which is a global variable
+
+
+func()
+print(some_var)  # has 'other value' as value
+
+def func1():
+    # here we get another error:
+    print(some_var)  # we must call global variable before use it
+    global some_var
+    print(some_var)
+    # error: some_var2 is used prior to global declaration
+#+end_src
+
+*** Lambda Expression
+#+begin_src python
+square = lambda x: x * x
+
+print(square(5))
+
+list1 = [
+    ["P1", 13],
+    ["P2", 7],
+    ["P3", 6],
+    ["P4", 45],
+    ["P5", 28],
+]
+
+list1.sort(key=lambda item: item[1], reverse=False)
+print(list1)
+
+print(sorted(list1, key=lambda i: i[1], reverse=True))
+#+end_src
+
+** Tuples
+- In tuples we cannot insert or remove elements and we cannot change their values. That's why tuples are different from lists.
+- Tuple Methods
+  | Method     | Description                                                     |
+  |------------+-----------------------------------------------------------------|
+  | count(val) | Returns the number of times a specified value occurs in a tuple |
+  | index(val) | Returns the position of where the passed value was found        |
+#+begin_src python
+t1 = (1,)  # or just 't1 = 1,'
+t2 = ()  # void tuple
+t3 = (1, 2, 3, "a", "b", "c")
+t4 = 6, 7, 8, "d", "e", "f"
+t5 = t3 + t4
+t6 = ("a", 1) * 4  # repeat '"a", 1' four times
+print(t6)
+
+# Modifying a tuple
+t7 = ("a", "b", "c")
+t7 = list(t7)
+t7.append("d")
+t7 = tuple(t7)
+print(t7)
+
+t8 = (1, 2, 3)
+item = (4,)  # could be multiple items
+t8 += item
+print(t8)
+#+end_src
+
+** Dictionaries
+- Dictionaries are used to store data values in key:value pairs.
+- A dictionary is a collection which is ordered*, changeable and do not allow duplicates.
+- Methods:
+  | Method               | Description                                               |
+  |----------------------+-----------------------------------------------------------|
+  | clear()              | Removes all the elements from the dictionary              |
+  | copy()               | Returns a copy of the dictionary                          |
+  | fromkeys(keys, val?) | Returns a dictionary with the specified keys and value    |
+  | get(key)             | Returns the value of the specified key                    |
+  | items()              | Returns a list containing a tuple for each key value pair |
+  | keys()               | Returns a list containing the dictionary's keys           |
+  | pop(k, defaulvalue?) | Removes the element with the specified key                |
+  | popitem()            | Removes the last inserted key-value pair                  |
+  | setdefault(k, val?)  | Returns the value of the specified key. If the key does   |
+  |                      | not exist: insert the key, with the specified value       |
+  | update(iterable)     | Updates the dictionary with the specified key-value pairs |
+  | values()             | Returns a list of all the values in the dictionary        |
+*** Syntax
+#+begin_src python
+d1 = {"key": "key value", "key": "key value 2", "key": "key real value"}
+d1["new_key"] = "new_key value"
+print(d1)
+
+d2 = dict(
+    key1="key1 value",
+    key2="key2 value",
+)
+
+# Accept immutable types as keys:
+d3 = {"str": "value", 123: "other value", (1, 2, 3): "tuple as key"}
+
+# Deleting a key:
+del d3["str"]  # we can delete the hole dict
+
+print(d3)
+
+# Verify if a KEY exists:
+print("str" in d3)  # or '"str" in d3.keys()'
+# Verify if a VALUE exists:
+print("other value" in d3.values())
+# Verify number of paris (key:value)
+print(len(d3))
+
+
+# Looping:
+d4 = {
+    "key1": "key1 value",
+    "key2": "key2 value",
+    "key3": "key3 value",
+    "key4": "key4 value",
+}
+
+for key in d4:
+    print(key, d4[key])
+
+for value in d4.values():
+    print(value)
+
+for key_value in d4.items():
+    print(key_value)  # tuples
+
+for key, value in d4.items():
+    print(key, value)
+#+end_src
+
+*** More on Syntax and Dict Copy
+#+begin_src python
+import copy
+
+customers = {
+    "customer1": {"name": "Joaquim", "lastname": "Gregório"},
+    "customer2": {"name": "Marcos", "lastname": "Silva"},
+}
+
+for customer_k, customer_v in customers.items():
+    print(f"Showing {customer_k}")
+    for data_k, data_v in customer_v.items():
+        print(f"\t{data_k}: {data_v}")
+
+d1 = {1: "a", 2: "b", 3: "c"}
+v = d1  # it's not a copy
+v[1] = "othe value"  # it will change in both, v and d1
+print(d1)
+print(v)
+
+d2 = {1: "a", 2: "b", 3: "c", 4: ["d", "e", "f"]}
+v2 = d2.copy()  # now it's a shallow copy
+# Only tuples will not change
+# Check why it's a shallow copy:
+v2[4][0] = "D"  # notice that it will change in d2 too
+print(d2[4], id(d2))
+print(v2[4], id(v2))
+
+# How to make a real copy:
+d3 = {1: "a", 2: "b", 3: "c", 4: ["d", "e", "f"]}
+v3 = copy.deepcopy(d3)  # independent copy
+# Check why it's a shallow copy:
+v3[4][0] = "D"  # notice that it will not change in d3
+print(d3[4])
+print(v3[4])
+#+end_src
+
+*** Casting
+#+begin_src python
+list1 = [
+    ["c1", 1],
+    ["c2", 2],
+    ["c3", 3],
+]
+list2 = [
+    ("c1", 1),
+    ("c2", 2),
+    ("c3", 3),
+]
+list3 = (
+    ["c1", 1],
+    ["c2", 2],
+    ["c3", 3],
+)
+list4 = (
+    ("c1", 1),
+    ("c2", 2),
+    ("c3", 3),
+)
+
+d4 = dict(list1)
+d5 = dict(list2)
+d6 = dict(list3)
+d7 = dict(list4)
+print(d4)
+print(d5)
+print(d6)
+print(d7)
+#+end_src
+*** Some Methods Usage
+#+begin_src python
+d8 = {"a": 2, 3: 4, "b": 6, 7: 8}
+d8.pop("b")
+d8.popitem()  # remove the last item
+print(d8)
+
+d9 = {"str": "value", 9: 10}
+d8.update(d9)
+print(d8)
+#+end_src
+
+** Sets
+- Methods
+  | Method                        | Description                                               |
+  |-------------------------------+-----------------------------------------------------------|
+  | add()                         | Adds an element to the set.                               |
+  | clear()                       | Removes all the elements from the set.                    |
+  | copy()                        | Returns a copy of the set.                                |
+  | difference()                  | Returns a set containing the difference                   |
+  |                               | between two or more sets.                                 |
+  | difference_update()           | Removes the items in this set that are also               |
+  |                               | included in another, specified set.                       |
+  | discard()                     | Remove the specified item.                                |
+  | intersection()                | Returns a set, that is the intersection of                |
+  |                               | two other sets.                                           |
+  | intersection_update()         | Removes the items in this set that are not                |
+  |                               | present in other, specified set(s).                       |
+  | isdisjoint()                  | Returns whether two sets have a intersection or not.      |
+  | issubset()                    | Returns whether another set contains this set or not.     |
+  | issuperset()                  | Returns whether this set contains another set or not.     |
+  | pop()                         | Removes an element from the set.                          |
+  | remove()                      | Removes the specified element.                            |
+  | symmetric_difference()        | Returns a set with the symmetric differences of two sets. |
+  | symmetric_difference_update() | inserts the symmetric differences from this               |
+  |                               | set and another.                                          |
+  | union()                       | Return a set containing the union of sets.                |
+  | update()                      | Update the set with the union of this set and others.     |
+*** Syntax
+A set is not subscriptable, then we cannot access a value directly
+#+begin_src python
+s1 = {1, 2, 3, 4, 5}
+
+for v in s1:
+    print(v)
+
+
+s2 = set()
+s2.add(1)
+s2.add("a")
+s2.add((2,))
+s2.add(3)
+print(s2)
+s2.discard("a")
+print(s2)
+s2.update("bcde")  # unpack an iterable element
+print(s2)
+# In sets, elements are not in order like in lists
+# Using lists:
+l1 = [1, 2, 1, 1, 3, 4, 5, 6, 6, 6, 7, 8, 9, "Joaquim", "Joaquim"]
+print(l1)
+l1 = list(set(l1))
+print(l1)
+
+s3 = {1, 2, 3, "a", "b", "c"}
+s3.clear()
+print(s3)
+#+end_src
+
+*** Syntax 2
+#+begin_src python
+s1 = {1, 2, 3, 4, 5, 7}
+s2 = {1, 2, 3, 4, 5, 6}
+print(s1)
+print(s2)
+print("union:")
+print(s1 | s2)  # we can use s1.union() function
+print("intersection:")
+print(s1 & s2)
+print("difference:")
+print(s1 - s2)
+print("simetric_difference:")
+print(s1 ^ s2)
+
+l1 = ["Luiz", "João", "Maria"]
+l2 = ["João", "Maria", "Maria", "Luiz", "Luiz", "Luiz", "Luiz"]
+
+print(l1 == l2)
+
+l1 = set(l1)
+l2 = set(l2)
+
+print(l1 == l2)
+
+l1 = list(l1)  # by coincidence, l1 and l2 can be in the same order
+l2 = list(l2)
+
+print(l1 == l2)
+#+end_src
+
+*** Sets and Lists
+#+begin_src python
+integer_list_list = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    [9, 1, 8, 9, 9, 7, 2, 1, 6, 8],
+    [1, 3, 2, 2, 8, 6, 5, 9, 6, 7],
+    [3, 8, 2, 8, 6, 7, 7, 3, 1, 9],
+    [4, 8, 8, 8, 5, 1, 10, 3, 1, 7],
+    [1, 3, 7, 2, 2, 1, 5, 1, 9, 9],
+    [10, 2, 2, 1, 3, 5, 10, 5, 10, 1],
+    [1, 6, 1, 5, 1, 1, 1, 4, 7, 3],
+    [1, 3, 7, 1, 10, 5, 9, 2, 5, 7],
+    [4, 7, 6, 5, 2, 9, 2, 1, 2, 1],
+    [5, 3, 1, 8, 5, 7, 1, 8, 8, 7],
+    [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+]
+
+
+def first_duplicated(listx: list):
+    new_list = set()
+    duplicated = -1
+    for num in listx:
+        if num in new_list:
+            duplicated = num
+            break
+        new_list.add(num)
+    return duplicated
+
+
+for integer_list in integer_list_list:
+    print(first_duplicated(integer_list))
+#+end_src
+
+** List Comprehension
+*** Example
+- Basic syntax
+
+#+begin_src python
+l1 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+print('List 1:', l1)
+
+ex1 = [el for el in l1]
+print(ex1)
+
+ex2 = [el for el in l1 if el % 2 == 0]
+print(ex2)
+
+ex3 = [el * 2 for el in l1]
+print(ex3)
+
+ex4 = [(x, y) for x in l1 for y in range(3)]
+print(ex4)
+
+l2 = ['Luiz', 'Mauro', 'Maria']
+
+ex5 = [v.replace('a', '@').upper() for v in l2]
+print(ex5)
+
+t1 = (
+    ('key 1', 'value 1'),
+    ('key 2', 'value 2'),
+)
+
+ex6 = [(y, x) for x, y in t1]
+ex6 = tuple(ex6)
+print(ex6)
+
+l3 = list(range(100))
+ex7 = [el for el in l3 if el % 3 == 0 if el % 8 == 0]
+print(ex7)
+
+ex8 = [el if el % 3 == 0 and el % 8 == 0 else "it's not" for el in l3]
+print(ex8)
+#+end_src
+
+*** Example 2
+- Split a string into n equal parts
+
+#+begin_src python
+string = "012345678901234567890123456789012345678901234567890123456789"
+n = 10
+list1 = [string[i : i + n] for i in range(0, len(string), n)]
+print(list1)
+new_string = ".".join(list1)
+print(new_string)
+#+end_src
+
+*** Example 3
+
+#+begin_src python
+cart = []
+cart.append(("Product 1", 30))
+cart.append(("Product 2", 20))
+cart.append(("Product 3", 50))
+cart.append(("Product 4", 36.10))
+
+total = sum([float(value) for _name, value in cart])
+print(total)
+#+end_src
+
+** Dictionarie Comprehension
+#+begin_src python
+list1 = [
+    ("key1", "value1"),
+    ("key2", "value2"),
+]
+
+d1 = {x.title(): y.upper() for x, y in list1}
+print(d1)
+
+d2 = {f"key_{x}": f"value_{x}" for x in range(4)}
+print(d2)
+#+end_src
+** Generators, Iterators and Iterables
+- Generators and Iterators: you can get their values only once, using for..in loops or the next() function. When you access all their values, you cannot access it again.
+*** Iterable
+
+#+begin_src python
+import sys
+import time
+
+list1 = [1, 2, 3, 4, 5]
+# Doint the same thing that for..in does:
+list1 = iter(list1)  # Iterator
+print(next(list1))
+print(next(list1))
+print(next(list1))
+print(next(list1))
+print(hasattr(list1, "__iter__"))  # verify iterable
+print(hasattr(list1, "__next__"))  # verify iterator
+print(sys.getsizeof(list1))  # size is a problem in big size variables
+#+end_src
+
+*** Generator
+
+#+begin_src python
+# Lazy evaluation:
+def gen(ran: int):
+    """Generate values"""
+    for v in range(1, ran + 1):
+        yield f"Value {v}"
+        time.sleep(0.1)
+
+
+g = gen(10)  # it's an iterator and an interable
+for v in g:
+    print(v)
+#+end_src
+
+*** Creating a Generator
+
+#+begin_src python
+l1 = [x for x in range(10000)] # list
+print(type(l1))
+l2 = (x for x in range(10000))  # 'best' way to create a generator
+print(type(l2))
+
+# Now we have a big difference:
+print(sys.getsizeof(l1))
+print(sys.getsizeof(l2))
+for v in l2:
+    print(v, end="\r")
+#+end_src
+
+** Zip and Zip Longest
+
+ | Function    | Description                                                  |
+ |-------------+--------------------------------------------------------------|
+ | zip         | Join iterables. The size depends on the smaller iterable     |
+ | zip_longest | Join iterables. The size depends on the larger iterable.     |
+ |             | Has the fillvalue attribute which the default value is none. |
+ |             | Import from itertools module.                                |
+
+#+begin_src python
+from itertools import zip_longest, count
+
+cities = ["São Paulo", "Belo Horizonte", "Salvador", "Monte Belo"]
+states = ["SP", "MG", "BA"]
+index = count()
+states_and_cities = zip(index, states, cities)
+for value in states_and_cities:
+    print(value)
+
+# print(dict(states_and_cities))
+# print(list(states_and_cities))
+
+index = count()
+## We can ommit fillvalue
+states_and_cities_long = zip_longest(index, states, cities, fillvalue="None value")
+print(list(states_and_cities_long))
+for value in states_and_cities_long:
+    print(value) # infinity loop because of the `index` variable.
+#+end_src
+
+- Sum using zip and zip_longest
+
+#+begin_src python
+from itertools import zip_longest
+
+list_a = [1, 2, 3, 4, 5, 6, 7]
+list_b = [1, 2, 3, 4]
+
+lists_sum = [x + y for x, y in zip(list_a, list_b)]
+print(lists_sum)
+
+# A better way:
+lists_sum = [x + y for x, y in zip_longest(list_a, list_b, fillvalue=0)]
+print(lists_sum)
+#+end_src
+
+** Count - Itertools
+
+- The ~count~ function is a generator.
+
+#+begin_src python
+from types import GeneratorType
+from itertools import count
+
+var = zip("Hello", "Hello")
+var = ((x, y) for x, y in var)
+print(isinstance(var, GeneratorType))
+for val in var:
+    print(val)
+
+counter = count(start=5, step=0.3)  # we can pass floats and negative values
+
+for value in counter:
+    print(round(value, 2))
+
+    if value >= 10:
+        break
+#+end_src
+
+** Combination, Permutation and Product
+
+- Import from itertools module.
+
+| Function    | Description                                             |
+|-------------+---------------------------------------------------------|
+| Combination | The order doesn't matter and don't repeat unique values |
+| Permutation | The order matters and don't repeat unique values        |
+| Product     | The order matters and repeats unique values             |
+
+#+begin_src python
+from itertools import combinations, permutations, product
+
+people = ["Joaquim", "André", "Márcia", "Maria", "Lúcia", "Joana"]
+
+for group in combinations(people, 2):
+    print(group)
+
+for group in permutations(people, 2):
+    print(group)
+
+for group in product(people, repeat=2):
+    print(group)
+#+end_src
+
+** Group By
+
+- Import from itertools module.
+
+#+begin_src python
+from itertools import groupby, tee
+
+students = [
+    {"name": "Joaquim", "grade": "A"},
+    {"name": "João", "grade": "B"},
+    {"name": "Maria", "grade": "B"},
+    {"name": "Márcia", "grade": "F"},
+    {"name": "Luiz", "grade": "D"},
+    {"name": "Mario", "grade": "A"},
+    {"name": "Carlos", "grade": "A"},
+    {"name": "Geraldo", "grade": "A"},
+    {"name": "Ronaldo", "grade": "B"},
+    {"name": "Cristina", "grade": "C"},
+]
+order = lambda item: item["grade"]
+students.sort(key=order)
+# you need to order the valures before use groupby
+ordered_students = groupby(students, order)
+
+for group, students_group in ordered_students:
+    print(f"Group: {group}")
+    new_group, new_group2 = tee(students_group)  # make a copy because it is an iterator
+    length = len(list(new_group))
+    print(f"\tThere is {length} students in this group.")
+    for student in new_group2:
+        print(f"\t{student}")
+#+end_src
+
+** data.py
+
+#+begin_src python
+products = [
+    {"name": "p1", "price": 13},
+    {"name": "p2", "price": 55.55},
+    {"name": "p3", "price": 5.59},
+    {"name": "p4", "price": 22},
+    {"name": "p5", "price": 81.23},
+    {"name": "p6", "price": 5.7},
+    {"name": "p7", "price": 10.90},
+    {"name": "p8", "price": 89.82},
+    {"name": "p9", "price": 12},
+    {"name": "p10", "price": 2.29},
+]
+
+people = [
+    {"name": "Joaquim", "age": 18},
+    {"name": "Eduarda", "age": 43},
+    {"name": "Joana", "age": 65},
+    {"name": "Lucas", "age": 14},
+    {"name": "Felipe", "age": 17},
+    {"name": "Maria", "age": 19},
+    {"name": "Júlia", "age": 25},
+    {"name": "Diniz", "age": 32},
+    {"name": "Max", "age": 23},
+    {"name": "Marcos", "age": 59},
+]
+
+list_1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+#+end_src
+
+** Map
+
+#+begin_src python
+from data import products, people, list_1
+
+new_list = map(lambda item: item * 2, list_1)
+new_list = list(new_list)
+new_list = [x * 2 for x in list_1]
+print(new_list)
+
+
+### Using dictionaries:
+def increase_price(product: dict):
+    product["price"] = round(product["price"] * 1.05, 2)
+    return product
+
+
+new_products = map(increase_price, products)
+for product in new_products:
+    print(product)
+
+
+names = map(lambda p: p["name"], people)
+for person in names:
+    print(person)
+#+end_src
+
+** Filter
+
+#+begin_src python
+from data import products, people, list_1
+
+new_products = filter(lambda p: p["price"] >= 10, products)
+for product in new_products:
+    print(product)
+
+new_people = filter(lambda p: p["age"] < 18, people)
+for person in new_people:
+    print(person)
+#+end_src
+
+** Reduce
+
+#+begin_src python
+from data import products, people, list_1
+from functools import reduce
+
+# Sum a list of numbers:
+list_sum = reduce(lambda ac, i: i + ac, list_1, 0)
+print(list_sum)
+
+# Prices sum:
+prices_sum = reduce(lambda ac, p: p["price"] + ac, products, 0)
+print(prices_sum)
+#+end_src
+
+* Exceptions, Modules and Functions
+** Try, Except
+
+#+begin_src python
+try:
+    # a = []
+    a = {}
+    print(a[1])
+except NameError as err:
+    # this will take the specified error
+    print("Some error occurred.")
+except (IndexError, KeyError) as err:
+    # this will take the specified error
+    print("Some index or key error.")
+except Exception as err:
+    # this will take any error
+    print("Unexpected error.")
+else:
+    # Executed when there's no error
+    print("The code has no error.")
+finally:
+    # Since this code block will always be executed,
+    # you can handle the possible errors here.
+    print("Finally is always executed.")
+#+end_src
+
+** Raise
+
+- [[https://docs.python.org/3/library/exceptions.html][Exceptions]]
+
+#+begin_src python
+# You can use `raise` alone to raise the same error
+# or with an error class
+def quotient(n1: int | float, n2: int | float):
+    if int(n2) == 0:
+        raise ValueError("You cannot divide by zero.")
+    return n1 / n2
+
+
+try:
+    print(quotient(12.1, 0))
+except ValueError as err:
+    print(err)
+
+
+def convert_to_num(value):
+    try:
+        value = int(value)
+        return value
+    except ValueError:
+        try:
+            value = float(value)
+            return value
+        except ValueError:
+            pass
+
+
+while True:
+    number = convert_to_num(input("Type some number: "))
+
+    if number == None:  # functions return None by default
+        print("Error: it's not a number.")
+    else:
+        print(number * 2)
+#+end_src
+
+** Modules
+
+- [[https://docs.python.org/3/py-modindex.html][Modules]]
+
+#+begin_src python
+import sys
+# from sys import platform
+# Give the module some alias:
+from sys import platform as so
+print(so)
+# NOTE: the following way can be confused:
+from random import *
+import random as rand
+
+for i in range(10):
+    print(rand.randint(-1, 10), rand.random())
+#+end_src
+
+** Creating Modules
+
+- Create ~calc.py~ in the same folder as ~main.py~
+
+*** calc.py
+
+#+begin_src python
+import math
+
+PI = math.pi
+
+
+def duplicate_list(listx: list) -> list:
+    return [x * 2 for x in listx]
+
+
+def multiply_list(listx: list[int] | list[float]):
+    r = 1
+    for i in listx:
+        r *= i
+    return r
+
+
+# The following code avoid the code inside the if confition being
+# executed by other file that is importing the current module, since
+# the variable __name__ is "__main__" only when we execute the file
+# directly, otherwise, the __name__ variable will be the module name
+# that is the file name. So, we can avoid the code inside if confition
+# being executed when we import this module in other file.
+if __name__ == "__main__":
+    list1 = [1, 2, 3, 4, 5]
+    print(duplicate_list(list1))
+    print(multiply_list(list1))
+    print(PI)
+
+    # __name__ only returns the module's name if that
+    # module is being imported in other file
+    print(__name__)
+#+end_src
+
+*** main.py
+
+#+begin_src python
+import calc
+
+# it will execute all the code inside the module
+# if we don't use the if condition (if __name__ == "__main__") ...
+
+# the __name__ of the first file that is being executed will
+# always be "__main__"
+# print(__name__)
+
+print(calc.PI)
+
+list1 = [2, 4]
+print(calc.multiply_list(list1))
+#+end_src
+
+** Packages and Modules
+
+- Every folder which mean to be a module must have a file called ~__init__.py~ even it being a empty file.
+
+*** sales/
+***** __init__.py
+
+#+begin_src python
+#+end_src
+
+***** format/
+****** __init__.py
+
+#+begin_src python
+#+end_src
+
+****** price.py
+
+#+begin_src python
+def real(value: float):
+    return f"R${value:.2f}".replace(".", ",")
+#+end_src
+
+***** calc_prices.py
+
+#+begin_src python
+from sales.format import price
+
+
+def increase_price(value: int | float, percentage: int | float, formated: bool = False):
+    r = value + (value * (percentage / 100))
+    if formated:
+        return price.real(r)
+    return r
+
+
+def decrease_price(value: int | float, percentage: int | float, formated: bool = False):
+    r = value - (value * (percentage / 100))
+    if formated:
+        return price.real(r)
+    return r
+#+end_src
+
+*** main.py
+
+#+begin_src python
+# import sales.calc_prices
+# from sales import calc_prices
+from sales.calc_prices import increase_price, decrease_price
+import sales.format.price as format_price
+
+some_price = 49.90
+inc_price = increase_price(value=some_price, percentage=15, formated=True)
+print(inc_price)
+
+dec_price = decrease_price(some_price, 15, True)
+print(dec_price)
+
+print(format_price.real(50))
+#+end_src
+
+
+*** Trick
+
+- Some hack to import modules which is not in te root folder.
+- Import modules from inside other modules without being in the main file.
+- This can be useful for testing.
+
+**** main.py
+
+#+begin_src python
+try:
+    import sys
+    import os
+
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
+except ImportError:
+    raise
+#+end_src
+
+** Handling Files
+
+- [[https://docs.python.org/3/library/functions.html#open][File handling]]
+
+| Character | Meaning                                                         |
+|-----------+-----------------------------------------------------------------|
+| 'r'       | Open for reading (default)                                      |
+| 'w'       | Open for writing, truncating the file first                     |
+| 'x'       | Open for exclusive creation, failing if the file already exists |
+| 'a'       | Open for writing, appending to the end of the file if it exists |
+| 'b'       | Binary mode                                                     |
+| 't'       | Text mode (default)                                             |
+| '+'       | Open for updating (reading and writing)                         |
+
+*** Syntax and Open Function
+
+#+begin_src python
+file = open("demofile.txt", "w+")
+file.write("Line 1\n")
+file.write("Line 2\n")
+file.write("Line 3\n")
+
+# Since we are in the end of the file, we must seek for a relative position,
+# then we can read the file.
+file.seek(0, 0)
+print("Reading lines...")
+print(file.read())
+print("###################")
+
+file.seek(0, 0)
+print(file.readline(), end="")  # now the cursor is at the end of the line that was read
+print(file.readline(), end="")
+print(file.readline(), end="")
+print("###################")
+
+file.seek(0, 0)
+print(file.readlines())  # list with the lines
+for line in file.readlines():
+    print(line, end="")
+# Also works:
+for line in file:
+    print(line, end="")
+
+
+file.close()  # it`s mandatory to prevent problems
+#+end_src
+
+*** Using Context Managers
+
+- Better than using ~try...except...finally~ to handle files.
+
+#+begin_src python
+# This closes the file automatically
+with open("demofile1.txt", "w+") as file:
+    file.write("Line 1\n")
+    file.write("Line 2\n")
+    file.write("Line 3\n")
+
+    file.seek(0, 0)
+    print(file.read())
+
+# Read mode:
+with open("demofile.txt", "r") as file:
+    print(file.read())
+
+# Append mode:
+# 'a+' mode will append whatever you write without clear the file content
+#+end_src
+*** Deleting Files
+
+#+begin_src python
+import os
+
+# First, let's create some file:
+with open("demofile2.txt", "w+") as file:
+    file.write("Some line 1\n")
+    file.write("Some line 2\n")
+    file.write("Some line 3\n")
+
+# Now we can delete the file:
+os.remove("demofile2.txt")
+#+end_src
+
+*** Json Files
+
+- Writing a dictionary to a json file.
+
+#+begin_src python
+import json
+
+d1 = {
+    "Person 1": {"name": "Joaquim", "age": 18},
+    "Person 2": {"name": "Marcos", "age": 23},
+}
+
+d1_json = json.dumps(d1, indent=True)
+
+with open("d1.json", "w+") as file:
+    file.write(d1_json)
+#+end_src
+
+- Converting a json file into a dictionary.
+
+#+begin_src python
+import json
+
+with open("d1.json", "r") as file:
+    d1_json = file.read()
+    d1_json = json.loads(d1_json)  # dictionary
+    print(d1_json)
+    print(type(d1_json)) # dict
+#+end_src
+
+** Decorators
+
+- A function or method that changes the behavior of other functions or methods.
+
+*** Syntax
+
+#+begin_src python
+def master(func):
+    def slave(*args, **kwargs):  # if args or kwargs are needed
+        print("Now I'm decorated.")
+        func(*args, **kwargs)
+
+    return slave
+
+
+@master
+def say_hello():
+    print("Hello")
+
+
+say_hello()
+
+# This does something:
+say_hello = master(say_hello)
+
+
+@master
+def another_func(msg: str):
+    print(msg)
+
+
+another_func("Hello Zevietana")
+#+end_src
+
+
+*** Example
+
+#+begin_src python
+from typing import Callable
+from time import time, sleep
+
+
+def velocity(func: Callable):
+    def intern(*args, **kwargs):
+        start_time = time()
+        result = func(*args, **kwargs)
+        end_time = time()
+        total_time = int((end_time - start_time) * 1000)
+        print(f"The function {func.__name__} took {total_time}ms to be executed.")
+        return result
+
+    return intern
+
+
+@velocity
+def delay():
+    for i in range(5):
+        print(i)
+        sleep(1)
+
+
+delay()
+#+end_src
+
+** Mutable Parameters Problem
+
+- Mutable: Lists, Dictionaries
+- Immutable: Tuples, Strings, Numbers, Booleans, None
+
++ The problem is that mutable default values as parameters can point to the same place in the memory and then we can work with the same object without knowing it.
+
+#+begin_src python
+from typing import Iterable
+
+# def clients_list(clients_iterable: Iterable[str], listx: list = []):
+def clients_list(clients_iterable: Iterable[str], listx: list = None):
+    if listx is None:
+        listx = []
+    listx.extend(clients_iterable)
+    return listx
+
+
+# Or we can just pass the second argument as an empty list
+clients1 = clients_list(["John", "Mary", "Stewart"], [])
+clients2 = clients_list(["Marcos", "Steve", "Bob"])
+clients3 = clients_list(["Joseph"])
+
+print(clients1)
+print(clients2)
+#+end_src
+
+** Todo List
+
+- Add, List, Undo, Redo
+
+#+begin_src python
+def add_task(task: str, todo_list: list):
+    todo_list.append(task)
+    print("Task added successfully!")
+
+
+def show_todo_list(todo_list: list):
+    print(f"There are {len(todo_list)} tasks:")
+    for i, task in enumerate(todo_list, start=1):
+        i = f"{i}" if len(str(i)) > 1 else f"0{i}"
+        print(f"\t{i} - {task}")
+
+
+def undo_task_list(task_list: list, redo_list: list):
+    if len(todo_list) == 0:
+        print("There's nothing to undo!")
+        return
+    redo_list.append(task_list.pop())
+    print("Undone!")
+
+
+def redo_task_list(redo_list: list, task_list: list):
+    if len(redo_list) == 0:
+        print("There's nothing to redo!")
+        return
+    task_list.append(redo_list.pop())
+    print("Redone!")
+
+
+todo_list = []
+redo_list = []
+
+while True:
+    print("What do you wanna do?")
+    action = input("(A)dd, L(ist), (U)ndo or (R)edo? ").upper()
+    if len(action) > 1:
+        print("Please type only one letter!")
+        continue
+    elif action == "A":
+        task = input("Type your task: ")
+        add_task(task, todo_list)
+        continue
+    elif action == "L":
+        show_todo_list(todo_list)
+        continue
+    elif action == "U":
+        undo_task_list(todo_list, redo_list)
+        continue
+    elif action == "R":
+        redo_task_list(redo_list, todo_list)
+        continue
+    else:
+        print("Type a valid letter!")
+#+end_src
